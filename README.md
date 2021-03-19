@@ -2,7 +2,7 @@
 <h1> Guess that Movie!</h1>
 <br>Group Project of Group 14 for ENGG1340 by Divtej Singh Bhatia and Aryan Agrawal<br>
 Aryan Agrawal - 3035812373<br>
-Divtej Bhatia - <br>
+Divtej Bhatia - 3035832438<br>
 <br> 
 <h2> Introduction </h2> 
 <br> we plan to develop a <b>movie guessing game</b> where you would have to guess the name of the movie. The game could be played as a single player or two players could go head to head. 
