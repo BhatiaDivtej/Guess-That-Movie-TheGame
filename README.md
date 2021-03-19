@@ -6,7 +6,7 @@ Divtej Singh Bhatia - 3035832438<br>
 <br> 
 <h2> Introduction </h2> 
 <br> We plan to develop a <b>movie guessing game</b> where you would have to guess the name of the movie. The game could be played as a single player or two players could go head to head. Don't Worry, To make the game more interesting ,  we would also give hints for the movie . <br>
-A random movie will be generated from our list of 100 movies. Only the vowels in the name of the movie will be generated ; for example : _ I _ A _ _ _ . The player can make use of the hints to guess the remaining consonants of the name . <br>
+A random movie will be generated from our list of 100 movies. Only the vowels in the name of the movie will be generated ; for example : _ I _ A _ _ _ . The player can make use of the hints to guess the remaining consonants of the name . <br> <br>
 Example :  <br>
   <ul> Guess the Name of the Movie : <br>
   _ I _ A _ _ _ <br>
