@@ -33,7 +33,7 @@ The player can guess the remaining consonants . If the guess is correct, the con
       <li> Since you are going head to head no hints will be provided </li> 
       <li> The player will both be guessing the same movie turn by turn </li> 
       <li> Turns will be passed if a wrong guess is made . </li>
-      <li> If Player 1 guesses a correct letter, player 1 can continue to guess the next letter. player 2 's turn will come when player 1 guesses incorrectely <li>
+      <li> If Player 1 guesses a correct letter, player 1 can continue to guess the next letter. player 2 's turn will come when player 1 guesses incorrectely </li>
       <li> The player to guess the last remaining letter of the movie wins ( so be sure to think about your guess strategically ! ) </li>
   </ul>      
 <h2> Functions to implement </h2> 
