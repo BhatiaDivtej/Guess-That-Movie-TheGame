@@ -26,5 +26,6 @@ To make the game easier we would also give hints.<br><br>
   <ul> 
     <li> Calculating points </li> 
     <li> Storing high scores </li> 
-    <li> Choosing a random movie </li> 
+    <li> Choosing a random movie </li>
+  
     
