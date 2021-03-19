@@ -42,8 +42,9 @@ The player can guess the remaining consonants . If the guess is correct, the con
   <ul> 
     <li> Taking Name of player(s) and choosing the Mode of gameplay ( Single Player or Multiplayer )  </li> 
     <li> Generating a random movie from our movie list ( Also making sure that same movies are not generated in one game ) </li> 
+    <li> Take input letter from player </li> 
     <li> Checking if the guess made by user is a correct letter </li> 
     <li> Storing the points scored in successive rounds </li> 
-    <li> Displaying the Winner Name and total points </li>
+    <li> Displaying the Winner Name and Total points </li>
   
     
