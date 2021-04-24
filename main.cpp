@@ -5,7 +5,7 @@
 //  1. BHATIA Divtej Singh : 3035832438
 //  2. AGRAWAL Aryan : 3035812373
 
-//  Most Recent Error : movie name not being stored into the dynamic array.
+//  Most Recent Error : single player does not work properly.
 
 #include <iostream>
 #include <string>
@@ -29,31 +29,33 @@ void print_movie(int n ,char * movie_display){
 char get_guess(){
     char g ;
     cin >> g ;
-    g = toupper(g) ;
+  //  g = toupper(g) ;
     return g;
 }
 
 bool is_guess( char g , int n , char * movie){
     for (int i = 0 ; i < n ; i ++){
-        if (g == movie[i]){
+        if (toupper(g) == movie[i] || tolower(g) == movie[i] ){
             return true;
         }
     }
     return false;
 }
 
-void update_with_guess(char g, int n , char * movie , char * & movie_display, int & unguessed){
+void update_with_guess(char g, int n , char * movie , char * & movie_display,
+   int & unguessed){
     for ( int i = 0 ; i < n ; i ++){
-        if ( g == movie[i]){
+        if ( toupper(g) == movie[i] || tolower(g) == movie[i]){
             unguessed -=1 ;
-            movie_display[i] = g;
+            movie_display[i] = movie[i];
         }
     }
 
 }
 
 bool isvowel(char x){
-    if ( x == 'A' || x == 'E' || x == 'I' || x == 'O' || x == 'U')
+    if ( x == 'A' || x == 'E' || x == 'I' || x == 'O' || x == 'U' ||
+  x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u')
         return true;
     else
         return false;
@@ -72,10 +74,11 @@ int main(){
     cout << "ENGG1340 2020-21 Semester 2" << endl;
     cout << endl;
     cout << "WELCOME TO GROUP PROJECT OF GROUP 14" << endl;
-    cout << "Group Members" << endl;
+    cout << "Group Members:" << endl;
     cout << "1. BHATIA Divtej Singh" << endl;
     cout << "2. AGRAWAL Aryan" << endl;
-    cout << "Press ANY KEY to Start" << endl;
+    cout <<"\n***************************\n" << endl  ;
+    cout << "Press ENTER to Start" << endl;
 
     cin.get(); // detecting enter
 
@@ -100,7 +103,7 @@ int main(){
     srand(time(0)) ;// random seed based on the current time
     int random = 0 , checker = 0 ;
 
-    random = rand() % 100  + 1; // generating a number between 1 and 100
+    random = rand() % 122  + 1; // generating a number between 1 and 122
 
     while ( getline( fin , random_movie)) {
       checker += 1 ;
@@ -111,10 +114,10 @@ int main(){
 
     fin.close() ;
 
-    cout << "The movie is " << random_movie ; // test // delete later
 
     string hint_1 , hint_2;
     char letter;
+
 
 
 
@@ -141,17 +144,20 @@ int main(){
      fin1.close() ;
      fin2.close() ;
 
-     cout << "\n The hints are " << hint_1 << hint_2 << endl ; //test//delete later
 
-    int n; //contains number of letters
+    int n = 0; //contains number of letters
+    int num_of_words = 1; // number of words in the movie name
 
     for ( int i = 0 ; i < random_movie.length() ; i ++ ) { // finding the length
     //of the movie without spaces
       if(random_movie[i] != ' ')
         n += 1 ;
-
+      else num_of_words += 1 ;
     }
-    cout << "\nThe movie is " << n << " letters long! Good Luck!!";
+
+
+
+
     int length = random_movie.length() ;
 
     //Making Dynamic Array :
@@ -159,22 +165,30 @@ int main(){
     char * movie_display = new char[n];
 
     int unguessed = 0;
-
     int t = 0 ;
 
-    istringstream name_temp(random_movie);
-
-    while ( name_temp >> letter){
-        movie[t] = letter;
-        t += 1;
+    for ( int i = 0 ; i < length ; i ++ ) {
+        movie[i] = random_movie[i] ;
     }
 
 
+/* problem area
+    istringstream name(random_movie);
+
+    while ( name >> letter){ // this is a problem
+        movie[t] = letter;  // it removes the space between the movie
+        t += 1;// Thus when guessing the space is removed again
+    }// so this while loop must be deleted. */
+
     //removing the consonants from the letter
-    for ( int i = 0 ; i < n; i ++){
+    for ( int i = 0 ; i < length; i ++){
         char q = movie[i];
-        if ( isvowel(q) ){
-            movie_display[i] = q ;
+        if ( isvowel(q) || isalpha(q) == 0 ){ // If there is a punctuation mark
+            movie_display[i] = q ; // it should be displayed
+        }
+        else if (q == ' '){
+          movie_display[i] = ' ' ;
+
         }
         else {
             movie_display[i] = '_';
@@ -197,26 +211,49 @@ int main(){
         string player_name;
         cout << "Enter Player Name: " ;
         cin >> player_name;
+        cout << "\nThe movie is " << n << " letters long! and has "<< num_of_words
+        << " word(s)! Good Luck!!\n";
+
+        cout << "You have 5 guesses remaining \n";
 
         //enter Single Player Mode
-        while( unguessed != 0 && remaining_guess >= 0 ){
-            print_movie(n , movie_display);
+        while (unguessed != 0 && remaining_guess > 0 ){
+            print_movie(length , movie_display);
             //print_hint(hint);
 
 
             cout << "Enter Guess: " ;
             char g = get_guess();
-            if (is_guess(g,n,movie) == false)
+            if (is_guess(g, length, movie) == false) {
                 remaining_guess -= 1;
-            update_with_guess(g, n , movie , movie_display, unguessed);
+                cout << "\nYou now have "<< remaining_guess
+                <<" guess(es) remaing\n";
+
+                if ( remaining_guess == 3 ) {
+                cout << "Here is your first hint:\n"
+                << "This movie was released in "<< hint_1 << endl ;}
+
+                else  if ( remaining_guess == 1 ){
+                  cout << "Here is your second hint: \n"
+                  <<"This movie was directed by " << hint_2 << endl ;
+                }
+
+
+              }
+            update_with_guess(g, length , movie , movie_display, unguessed);
 
         }
 
         if (unguessed == 0 ){
+            cout << random_movie << endl ; // if opponent wins the completed movie
+            //should be shown.
             cout << "Congratulations " << player_name << ", You Win !!" << endl;
         }
 
-
+        if (remaining_guess == 0 ) {
+          cout << "Uh Oh, "<< player_name
+          <<", You are out of guesses, The movie was: "<< random_movie << endl ;
+        }
 
     }
 
