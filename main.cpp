@@ -1,3 +1,4 @@
+
 //  Group Project of Group14_ENGG1340
 //  Game : GUESS THE MOVIE !
 //  Group Members:
@@ -11,6 +12,9 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
+#include <cstring>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -61,7 +65,7 @@ void print_hint(string hint){
 
 int main(){
 
-    //Introduction Output 
+    //Introduction Output
     cout << endl;
     cout << "***************************" << endl;
     cout << endl; //endline marking start of game
@@ -86,25 +90,70 @@ int main(){
 
     //Using Fstream and Stringstream to Load a movie and hint
 
-    //Make a dynamic array of the size of the movie name 
+    //Make a dynamic array of the size of the movie name
     //load hint string
-    
-    //assuming that fstream loads 
+
+    //assuming that fstream loads
     string random_movie;
-    random_movie = "T I T A N I C"; //**CHANGE THIS with fstream input
-    string hint;
+    ifstream fin ;
+    fin.open("movie_name.txt");
+    srand(time(0)) ;// random seed based on the current time
+    int random = 0 , checker = 0 ;
+
+    random = rand() % 100  + 1; // generating a number between 1 and 100
+
+    while ( getline( fin , random_movie)) {
+      checker += 1 ;
+      if ( checker == random) { // once we get to the line number that random
+        break ; // generated it breaks
+      }
+    }
+
+    fin.close() ;
+
+    cout << "The movie is " << random_movie ; // test // delete later
+
+    string hint_1 , hint_2;
     char letter;
 
-    //hint will come from other fstream file 
-    hint = "A Movie about a ShipWreck" ;// **CHANGE THIS with fstream input
 
-    istringstream name(random_movie);
+
+     ifstream fin1, fin2 ;
+     fin1.open("movie_year.txt");
+     fin2.open("movie_director.txt") ;
+     checker = 0 ;
+
+     while ( getline( fin1 , hint_1)) {
+       checker += 1 ;
+       if ( checker == random) { // once we get to the line number that random
+         break ; // generated it breaks
+       }
+     }
+
+     checker = 0 ;
+
+     while ( getline( fin2 , hint_2)) {
+       checker += 1 ;
+       if ( checker == random) { // once we get to the line number that random
+         break ; // generated it breaks
+       }
+     }
+     fin1.close() ;
+     fin2.close() ;
+
+     cout << "\n The hints are " << hint_1 << hint_2 << endl ; //test//delete later
+
     int n; //contains number of letters
 
-    while(name >> letter){ //finding the length of the movie name 
-        n +=1 ;
+    for ( int i = 0 ; i < random_movie.length() ; i ++ ) { // finding the length
+    //of the movie without spaces
+      if(random_movie[i] != ' ')
+        n += 1 ;
+
     }
-    
+    cout << "\nThe movie is " << n << " letters long! Good Luck!!";
+    int length = random_movie.length() ;
+
     //Making Dynamic Array :
     char * movie = new char[n];
     char * movie_display = new char[n];
@@ -112,8 +161,10 @@ int main(){
     int unguessed = 0;
 
     int t = 0 ;
-    
-    while ( name >> letter){
+
+    istringstream name_temp(random_movie);
+
+    while ( name_temp >> letter){
         movie[t] = letter;
         t += 1;
     }
@@ -121,9 +172,9 @@ int main(){
 
     //removing the consonants from the letter
     for ( int i = 0 ; i < n; i ++){
-        char q = movie[i]; 
+        char q = movie[i];
         if ( isvowel(q) ){
-            movie_display[i] = q;
+            movie_display[i] = q ;
         }
         else {
             movie_display[i] = '_';
@@ -136,8 +187,6 @@ int main(){
 
     //Unguessed contains the number of total alphabets to be guessed
     int remaining_guess = 5 ;
-
-
 
     //game starts:
     cout << endl;
@@ -152,22 +201,22 @@ int main(){
         //enter Single Player Mode
         while( unguessed != 0 && remaining_guess >= 0 ){
             print_movie(n , movie_display);
-            print_hint(hint);
-            
+            //print_hint(hint);
+
 
             cout << "Enter Guess: " ;
             char g = get_guess();
             if (is_guess(g,n,movie) == false)
                 remaining_guess -= 1;
             update_with_guess(g, n , movie , movie_display, unguessed);
-    
-        } 
+
+        }
 
         if (unguessed == 0 ){
-            cout << "Congratulations " << player_name << " , you WON !!" << endl;
+            cout << "Congratulations " << player_name << ", You Win !!" << endl;
         }
-        
-        
+
+
 
     }
 
