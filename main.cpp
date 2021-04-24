@@ -399,6 +399,7 @@ int main(){
 				print_movie(length , movie_display);
 
 				cout << "Enter your Guess PLAYER 2 ( " << player2 << " ) : " ;
+                
 				char g = get_guess();
 
 				//checking for a Legit Guess
