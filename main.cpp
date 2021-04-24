@@ -7,6 +7,33 @@
 
 //  Most Recent Error : single player does not work properly.
 
+/* IMPLEMANTATION of Code Requirements :
+
+1 : Generation of random game sets or events:
+* Used while importing a random_movie and its hints from the external file through fstream.
+* Generated random number using rand()
+* Used For loop to loop through movie name file and stop at random number.
+
+2 : Data structures for storing game status:
+* Used Array Data structures to store game status 
+
+3 : Dynamic memory management
+* Created a dynamic array 
+* Array length is based on the length of the randomly generated movie
+
+4 : File input/output (e.g., for loading/saving game status
+* Used Fstream to input movie name and it's hints.
+
+5 : Followed 
+* Proper indentation and naming styles
+* In-code documentation provided
+
+
+*/
+
+
+
+
 #include <iostream>
 #include <string>
 #include <cctype>
@@ -16,11 +43,15 @@
 #include <ctime>
 #include <cstdlib>
 
+
 using namespace std;
+
+
 
 void print_movie(int n ,char * movie_display){
     for ( int i = 0 ; i < n ; i ++ ){
-        cout << movie_display[i] << " " ;
+      	char x = toupper(movie_display[i]);
+    	cout << x << " " ;
     }
     cout << endl;
 }
@@ -89,19 +120,20 @@ int main(){
     cout << "Press S for Single Player" << endl;
     cout << "Press M for Multiplayer " <<endl;
 
+
     char input_mode;
     cin >> input_mode ;
     input_mode = toupper(input_mode); // for case when lowercase is entered
 
     //Using Fstream and Stringstream to Load a movie and hint
-
     //Make a dynamic array of the size of the movie name
     //load hint string
 
-    //assuming that fstream loads
     string random_movie;
     ifstream fin ;
     fin.open("movie_name.txt");
+
+    // 1 : GENERATING RANDOM GAME SET
     srand(time(0)) ;// random seed based on the current time
     int random = 0 , checker = 0 ;
 
@@ -116,26 +148,23 @@ int main(){
 
     fin.close() ;
 
-
     string hint_1 , hint_2;
     char letter;
 
 
+    ifstream fin1, fin2 ;
+    fin1.open("movie_year.txt");
+    fin2.open("movie_director.txt") ;
+    checker = 0 ; 
 
+    while ( getline( fin1 , hint_1)) {
+      checker += 1 ;
+      if ( checker == random) { // once we get to the line number that random
+        break ; // generated it breaks
+      }
+    } 
 
-     ifstream fin1, fin2 ;
-     fin1.open("movie_year.txt");
-     fin2.open("movie_director.txt") ;
-     checker = 0 ;
-
-     while ( getline( fin1 , hint_1)) {
-       checker += 1 ;
-       if ( checker == random) { // once we get to the line number that random
-         break ; // generated it breaks
-       }
-     }
-
-     checker = 0 ;
+    checker = 0 ;
 
      while ( getline( fin2 , hint_2)) {
        checker += 1 ;
@@ -159,10 +188,9 @@ int main(){
 
 
 
-
     int length = random_movie.length() ;
 
-    //Making Dynamic Array :
+    // 3 : Making Dynamic Array :
     char * movie = new char[n];
     char * movie_display = new char[n];
 
@@ -173,14 +201,6 @@ int main(){
         movie[i] = random_movie[i] ;
     }
 
-
-/* problem area
-    istringstream name(random_movie);
-
-    while ( name >> letter){ // this is a problem
-        movie[t] = letter;  // it removes the space between the movie
-        t += 1;// Thus when guessing the space is removed again
-    }// so this while loop must be deleted. */
 
     //removing the consonants from the letter
     for ( int i = 0 ; i < length; i ++){
@@ -213,62 +233,69 @@ int main(){
         string player_name;
         cout << "Enter Player Name: " ;
         cin >> player_name;
-        cout << "\nThe movie is " << n << " letters long! and has "<< num_of_words
-        << " word(s)! Good Luck!!\n";
+        cout << "\nTHIS MOVIE IS " << n << " LETTER LONG ! and has "<< num_of_words
+        << " WORD(s)! Good Luck!!\n";
 
         cout << "You have 5 guesses remaining \n";
+		cout << endl;
 
         //enter Single Player Mode
         while (unguessed != 0 && remaining_guess > 0 ){
             print_movie(length , movie_display);
-            //print_hint(hint);
-
+            
 
             cout << "Enter Guess: " ;
             char g = get_guess();
+			cout << endl;
             if (is_guess(g, length, movie , movie_display) == false) {
+				cout << "INCORRECT! \n" << endl;
                 remaining_guess -= 1;
-                cout << "\nYou now have "<< remaining_guess
-                <<" guess(es) remaing\n";
+                cout << "You now have "<< remaining_guess
+                <<" guess(es) remaining\n";
 
                 if ( remaining_guess == 3 ) {
-                cout << "Here is your first hint:\n"
-                << "This movie was released in "<< hint_1 << endl ;}
+                cout << "HERE IS YOUR 1st HINT \n"
+                << "~~THIS MOVIE WAS RELEASED IN "<< hint_1 << "~~" << endl ;
+				cout << endl;
+				}
 
-                else  if ( remaining_guess == 1 ){
-                  cout << "Here is your second hint: \n"
-                  <<"This movie was directed by " << hint_2 << endl ;
+                else if ( remaining_guess == 1 ){
+                  cout << "HERE IS YOUR 2nd HINT: \n"
+				  <<"~~THIS MOVIE WAS DIRECTED BY " << hint_2 << "~~"<<endl ;
                 }
 
 
-              }
+            }
+
+			else{
+				cout << "CORRECT !!! Keep Going \n" << endl;
+			}
+			cout << "------------" << endl;
             update_with_guess(g, length , movie , movie_display, unguessed);
 
         }
 
         if (unguessed == 0 ){
+			print_movie(length , movie_display);
+			cout << "Yes, the movie is ~~  ";
             cout << random_movie << endl ; // if opponent wins the completed movie
             //should be shown.
-            cout << "Congratulations " << player_name << ", You Win !!" << endl;
+            cout << "CONGRATULATIONS !!!! " << player_name << ", You Win !!" << endl;
+			cout << "Play Again Soon !\n" << endl ;
         }
 
         if (remaining_guess == 0 ) {
           cout << "Uh Oh, "<< player_name
           <<", You are out of guesses, The movie was: "<< random_movie << endl ;
+		  cout << endl;
         }
 
     }
 
 
-
-
-
-
-
-    //MULTIPLAYER MODE
+      //MULTIPLAYER MODE
     else if ( input_mode == 'M'){
         //enter Multiplayer Mode
-
 
 
     }
