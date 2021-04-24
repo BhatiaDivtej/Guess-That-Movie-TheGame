@@ -28,10 +28,7 @@
 * Proper indentation and naming styles
 * In-code documentation provided
 
-
 */
-
-
 
 
 #include <iostream>
@@ -94,9 +91,17 @@ bool isvowel(char x){
         return false;
 }
 
-void print_hint(string hint){
-    cout << "Hint: " << hint << endl;
+bool previous_guess(int n ,char g , char * movie_display){
+	for (int i = 0 ; i < n ; i ++){
+
+		if ( g == movie_display[i] || toupper(g) == movie_display[i]){
+			return true;
+		}
+	}
+
+	return false;
 }
+
 
 int main(){
 
@@ -246,20 +251,34 @@ int main(){
 
             cout << "Enter Guess: " ;
             char g = get_guess();
+			
 			cout << endl;
+
+			//checking for a Legit Guess
+			if ( isvowel(g)){
+				cout << "~ Don't Guess Vowels as they are already visible! Try Again !\n" << endl;
+				continue;
+			}
+
+			if ( previous_guess(length, g , movie_display)){
+				cout << "~ This Guess has already been made !! Try Again !\n" <<endl ;
+				continue;
+			}
+			
+
             if (is_guess(g, length, movie , movie_display) == false) {
 				cout << "INCORRECT! \n" << endl;
                 remaining_guess -= 1;
                 cout << "You now have "<< remaining_guess
                 <<" guess(es) remaining\n";
 
-                if ( remaining_guess == 3 ) {
+                if ( remaining_guess == 3 ) { //first hint at 3 remaining guesses
                 cout << "HERE IS YOUR 1st HINT \n"
                 << "~~THIS MOVIE WAS RELEASED IN "<< hint_1 << "~~" << endl ;
 				cout << endl;
 				}
 
-                else if ( remaining_guess == 1 ){
+                else if ( remaining_guess == 1 ){ //second guess at 
                   cout << "HERE IS YOUR 2nd HINT: \n"
 				  <<"~~THIS MOVIE WAS DIRECTED BY " << hint_2 << "~~"<<endl ;
                 }
@@ -270,7 +289,7 @@ int main(){
 			else{
 				cout << "CORRECT !!! Keep Going \n" << endl;
 			}
-			cout << "------------" << endl;
+			
             update_with_guess(g, length , movie , movie_display, unguessed);
 
         }
@@ -278,31 +297,154 @@ int main(){
         if (unguessed == 0 ){
 			print_movie(length , movie_display);
 			cout << "Yes, the movie is ~~  ";
-            cout << random_movie << endl ; // if opponent wins the completed movie
+            cout << random_movie << endl ; // if player wins the completed movie
             //should be shown.
-            cout << "CONGRATULATIONS !!!! " << player_name << ", You Win !!" << endl;
+
+            cout << "**** Congratulations !! **** " << player_name << ", You Win !!" << endl;
 			cout << "Play Again Soon !\n" << endl ;
         }
 
         if (remaining_guess == 0 ) {
+
           cout << "Uh Oh, "<< player_name
           <<", You are out of guesses, The movie was: "<< random_movie << endl ;
+
 		  cout << endl;
         }
 
     }
 
+	//-----------------------
 
-      //MULTIPLAYER MODE
+    //MULTIPLAYER MODE
+
     else if ( input_mode == 'M'){
         //enter Multiplayer Mode
 
+		string player1, player2;
+		cout << "ENTER NAME OF PLAYER 1: " ;
+		cin >> player1 ;
+
+		cout << "ENTER NAME OF PLAYER 2: " ;
+		cin >> player2 ;
+		cout << endl;
+
+		cout << "The Player to Complete the Movie Wins !! , ALL THE BEST \n" << endl ;
+
+		cout << "GUESS THIS MOVIE: "  << endl;
+		cout << "\nTHIS MOVIE IS " << n << " LETTER LONG ! and has "<< num_of_words
+        << " WORD(s)! Good Luck!!\n";
+
+		int pp = 0 ; //for printing hint only once
+
+		while ( unguessed != 0 ){
+
+			int chance1 = 1 ; //	chance1 is 0 if player 1 guesses incorrectly.
+			int chance2 = 1 ; //	chance2 is 0 if player 2 guesses incorrectly.
+
+
+			//player1's turn:
+			while ( chance1 == 1 && unguessed != 0){
+				
+				print_movie(length , movie_display);
+
+				if ( pp == 0 ){ // pp = 0 means that hints havn't been printed before
+					cout << "Hint 1 ~~ Released in " << hint_1 << endl;
+					cout << "Hint 2 ~~ Directed By " << hint_2 << endl;
+					cout << endl;
+
+					pp = 1 ;
+				}
+
+				cout << "Enter your Guess PLAYER 1 ( " << player1 << " ) : " ;
+				char g = get_guess();
+
+
+
+				//checking for a Legit Guess
+				if ( isvowel(g)){
+					cout << "~ Don't Guess Vowels as they are already visible! Try Again !\n" << endl;
+					continue;
+
+				}
+
+				if ( previous_guess(length, g , movie_display)){
+					cout << "~ This Guess has already been made !! Try Again !\n" <<endl ;
+					continue;
+
+				}
+
+
+				if (is_guess(g, length, movie , movie_display ) == false){//case of incorrect guess
+					chance1 = 0;
+					cout << "Incorrect Guess ! \n" << endl;
+
+				}
+
+
+				else{
+					update_with_guess(g, length , movie , movie_display, unguessed);
+					cout << "Correct Guess  ... ! \n" << endl;
+				}
+
+				if (unguessed == 0 ){
+					cout << "**** Congratulations !! **** \n" << player1 << " Wins \n" << endl;
+				}
+
+			}
+
+			//player2's turn 
+			while ( chance2 == 1 && unguessed != 0){
+				
+				print_movie(length , movie_display);
+
+				cout << "Enter your Guess PLAYER 2 ( " << player2 << " ) : " ;
+				char g = get_guess();
+
+				//checking for a Legit Guess
+				if ( isvowel(g)){
+					cout << "~Don't Guess Vowels as they are already visible! Try Again !\n" << endl ;
+					continue;
+
+				}
+
+				if ( previous_guess(length, g , movie_display)){
+					cout << "~ This Guess has already been made !! Try Again !\n" << endl ;
+					continue;
+
+				}
+				
+
+				if (is_guess(g, length, movie , movie_display ) == false){
+					cout << "Incorrect Guess ! \n" << endl;
+					chance2 = 0;
+
+				}
+
+				else{
+					cout << "Correct Guess ... ! \n" << endl;
+					update_with_guess(g, length , movie , movie_display, unguessed);
+				}
+
+				if (unguessed == 0 ){
+					cout << "**** Congratulations !! **** \n" << player2 << "Wins " << endl;
+				}
+
+			}
+
+		}
+
+		
+		cout << "The movie was ~~  ";
+        cout << random_movie << endl ;
 
     }
 
     else{
         cout << "INVALID CHOICE, Try Again Later" << endl;
     }
+
+	cout << "THANKS FOR PLAYING !\n" << endl ; 
 
     delete [] movie;
     delete [] movie_display;
