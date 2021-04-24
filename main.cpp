@@ -33,9 +33,10 @@ char get_guess(){
     return g;
 }
 
-bool is_guess( char g , int n , char * movie){
+bool is_guess( char g , int n , char * movie, char * & movie_display){
     for (int i = 0 ; i < n ; i ++){
-        if (toupper(g) == movie[i] || tolower(g) == movie[i] ){
+        if ((toupper(g) == movie[i] || tolower(g) == movie[i])
+        && movie_display[i] == '_' ){
             return true;
         }
     }
@@ -45,7 +46,8 @@ bool is_guess( char g , int n , char * movie){
 void update_with_guess(char g, int n , char * movie , char * & movie_display,
    int & unguessed){
     for ( int i = 0 ; i < n ; i ++){
-        if ( toupper(g) == movie[i] || tolower(g) == movie[i]){
+        if (( toupper(g) == movie[i] || tolower(g) == movie[i])
+        && movie_display[i] == '_'){
             unguessed -=1 ;
             movie_display[i] = movie[i];
         }
@@ -224,7 +226,7 @@ int main(){
 
             cout << "Enter Guess: " ;
             char g = get_guess();
-            if (is_guess(g, length, movie) == false) {
+            if (is_guess(g, length, movie , movie_display) == false) {
                 remaining_guess -= 1;
                 cout << "\nYou now have "<< remaining_guess
                 <<" guess(es) remaing\n";
