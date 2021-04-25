@@ -47,7 +47,9 @@ The player can guess the remaining consonants . If the guess is correct, the con
     <li> Storing the points scored in successive rounds </li> 
     <li> Displaying the Winner Name and Total points </li>
   
-    
+  </ul>
+  <li> </li>
+
  IMPLEMANTATION of Code Requirements :
 
 1 : Generation of random game sets or events:
