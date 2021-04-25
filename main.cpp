@@ -482,7 +482,7 @@ int main(){
 				}
 
 				if (unguessed == 0 ){
-					cout << "**** Congratulations !! **** \n" << player2 << "Wins " << endl;
+					cout << "**** Congratulations !! **** \n" << player2 << " Wins " << endl;
 				}
 
 			}
