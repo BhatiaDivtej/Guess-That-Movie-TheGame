@@ -48,3 +48,24 @@ The player can guess the remaining consonants . If the guess is correct, the con
     <li> Displaying the Winner Name and Total points </li>
   
     
+ IMPLEMANTATION of Code Requirements :
+
+1 : Generation of random game sets or events:
+* Used while importing a random_movie and its hints from the external file through fstream.
+* Generated random number using rand()
+* Used For loop to loop through movie name file and stop at random number.
+
+2 : Data structures for storing game status:
+* Used Array Data structures to store game status (movie_display) 
+
+3 : Dynamic memory management
+* Created a dynamic array 
+* Array length is based on the length of the randomly generated movie
+
+4 : File input/output (e.g., for loading/saving game status
+* Used Fstream to input movie name and it's hints.
+
+5 : Followed 
+* Proper indentation and naming styles
+* In-code documentation provided
+
