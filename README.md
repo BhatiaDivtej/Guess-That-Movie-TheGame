@@ -1,7 +1,7 @@
 
 <h1> Guess that Movie!</h1>
-Aryan Agrawal - 3035812373<br>
-Divtej Singh Bhatia - 3035832438<br>
+Aryan Agrawal<br>
+Divtej Singh Bhatia <br>
 <br> 
 <h2> Introduction </h2> 
 <br> Do you like chilling and watching movies on the weekend ?? If Yes, then this game is made for you . This game will test your trivia in the World Of Movies. <br>
