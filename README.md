@@ -1,6 +1,5 @@
 
 <h1> Guess that Movie!</h1>
-<br>Group Project of Group 14 for ENGG1340 by Divtej Singh Bhatia and Aryan Agrawal<br>
 Aryan Agrawal - 3035812373<br>
 Divtej Singh Bhatia - 3035832438<br>
 <br> 
